@@ -72,6 +72,7 @@ select{padding:9px 32px 9px 12px;border:1px solid #e0ddd7;border-radius:8px;font
 .b-it{background:#fce7e7;color:#b91c1c}
 .b-gr{background:#e6f4ea;color:#166534}
 .b-am{background:#e0f2fe;color:#0369a1}
+.b-mx{background:#f3e8ff;color:#7c3aed}
 .b-meal,.b-time{background:#f0ede6;color:#78716c}
 .b-hi{background:#d1fae5;color:#065f46}
 .b-mid{background:#fef9c3;color:#854d0e}
@@ -106,6 +107,25 @@ select{padding:9px 32px 9px 12px;border:1px solid #e0ddd7;border-radius:8px;font
   .ctrl-row{flex-direction:column}
   .ctrl-group{min-width:100%}
 }
+
+.strict-banner{background:#1a1a1a;color:#fff;border-radius:10px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:flex-start;gap:12px}
+.strict-banner .sbi{font-size:20px;flex-shrink:0;margin-top:1px}
+.strict-banner p{font-size:13px;line-height:1.6;color:#ccc}
+.strict-banner strong{color:#e8c97a}
+.threshold-row{display:flex;align-items:center;gap:14px;margin-bottom:14px;padding:12px 14px;background:#f7f5f0;border-radius:8px;flex-wrap:wrap}
+.threshold-row label{font-size:12px;color:#555;white-space:nowrap;font-weight:500}
+.threshold-row input[type=range]{flex:1;min-width:100px;accent-color:#1a1a1a}
+.threshold-val{font-size:13px;font-weight:500;min-width:160px;color:#1a1a1a}
+.no-match{background:#fff;border:1px solid #e8e5df;border-radius:14px;padding:32px 24px;text-align:center;margin-top:8px}
+.no-match h4{font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:8px}
+.no-match p{font-size:13px;color:#888;line-height:1.6;margin-bottom:16px}
+.no-match .suggestions{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:10px}
+.sug-chip{padding:4px 12px;background:#f0ede6;border-radius:50px;font-size:12px;color:#555;cursor:pointer;border:none;font-family:'DM Sans',sans-serif}
+.sug-chip:hover{background:#1a1a1a;color:#fff}
+.missing-note{margin-top:10px;padding:8px 10px;background:#fff8f0;border-radius:8px;border:1px solid #fde8c8;font-size:12px;color:#92400e}
+.missing-note strong{display:block;margin-bottom:3px;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+.chip.added{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+
 </style>
 </head>
 <body>
@@ -118,7 +138,7 @@ select{padding:9px 32px 9px 12px;border:1px solid #e0ddd7;border-radius:8px;font
 <nav class="sidebar" id="sidebar">
   <div class="logo">
     <h1>The World Kitchen</h1>
-    <p>🇱🇧 🇮🇹 🇬🇷 🇺🇸</p>
+    <p>🇱🇧 🇮🇹 🇬🇷 🇺🇸 🇲🇽</p>
   </div>
 
   <div class="nav-section">
@@ -135,6 +155,7 @@ select{padding:9px 32px 9px 12px;border:1px solid #e0ddd7;border-radius:8px;font
     <button class="nav-btn" onclick="showPage('italian',this)"><span class="nav-icon">🍝</span>Italian</button>
     <button class="nav-btn" onclick="showPage('greek',this)"><span class="nav-icon">🏛️</span>Greek</button>
     <button class="nav-btn" onclick="showPage('american',this)"><span class="nav-icon">🦅</span>American</button>
+    <button class="nav-btn" onclick="showPage('mexican',this)"><span class="nav-icon">🌮</span>Mexican</button>
   </div>
 </nav>
 
@@ -143,7 +164,8 @@ select{padding:9px 32px 9px 12px;border:1px solid #e0ddd7;border-radius:8px;font
   <!-- FINDER PAGE -->
   <div class="page active" id="page-finder">
     <div class="page-title">Recipe Finder</div>
-    <div class="page-sub">Pick a meal type, add what's in your kitchen, and get 5 matched recipes.</div>
+    <div class="page-sub">Add what you have. We only show recipes you can actually make.</div>
+    <div class="strict-banner"><div class="sbi">🔒</div><p><strong>Strict ingredient matching is ON.</strong> Only recipes where you have ALL ingredients are shown. Use the slider to allow a small number of missing items.</p></div>
     <div class="controls">
       <div class="ctrl-row">
         <div class="ctrl-group">
@@ -191,6 +213,7 @@ select{padding:9px 32px 9px 12px;border:1px solid #e0ddd7;border-radius:8px;font
   <div class="page" id="page-italian"></div>
   <div class="page" id="page-greek"></div>
   <div class="page" id="page-american"></div>
+  <div class="page" id="page-mexican"></div>
 </div>
 
 <script>
@@ -439,13 +462,71 @@ const R = [
 {n:"Peach Cobbler",c:"American",m:"dessert",t:"45 min",d:"Juicy peaches with a golden biscuit topping.",i:["peaches","flour","sugar","butter","buttermilk","baking powder","cinnamon","vanilla"],s:"Toss peaches with sugar and cinnamon. Make thick biscuit batter. Pour peaches into baking dish, drop batter over. Bake 375°F 35 min."},
 {n:"Red Velvet Cake",c:"American",m:"dessert",t:"60 min",d:"Dramatic red layers with tangy cream cheese frosting.",i:["flour","cocoa","red food colouring","buttermilk","eggs","butter","sugar","cream cheese","vanilla","baking soda","vinegar"],s:"Make red velvet batter with cocoa and food colouring. Bake 350°F 28 min. Cool. Make cream cheese frosting. Layer and frost."},
 {n:"Pecan Pie",c:"American",m:"dessert",t:"60 min",d:"Rich, gooey pecan filling in a buttery shortcrust shell.",i:["pecans","eggs","corn syrup","brown sugar","butter","vanilla","salt","pie crust"],s:"Make or use pie crust. Whisk eggs, syrup, sugar, butter and vanilla. Fold in pecans. Pour into shell. Bake 350°F 50-55 min."},
+// MEXICAN BREAKFAST
+{n:"Huevos Rancheros",c:"Mexican",m:"breakfast",t:"20 min",d:"Fried eggs on crispy corn tortillas with a fiery tomato salsa.",i:["eggs","corn tortillas","tomatoes","jalapeño","onion","garlic","cumin","oil","black beans"],s:"Make salsa: blend tomatoes, jalapeño, onion and garlic, fry in oil 5 min. Fry tortillas until crispy. Fry eggs. Serve eggs on tortillas, smother with salsa and beans."},
+{n:"Chilaquiles Rojos",c:"Mexican",m:"breakfast",t:"25 min",d:"Crispy tortilla chips simmered in red chile sauce, topped with eggs and crema.",i:["corn tortillas","dried chiles","tomatoes","onion","garlic","eggs","crema","queso fresco","oil"],s:"Fry tortilla strips until crispy. Blend chiles, tomatoes, onion and garlic into sauce. Simmer tortillas in sauce 3 min. Top with fried eggs, crema and queso."},
+{n:"Chilaquiles Verdes",c:"Mexican",m:"breakfast",t:"25 min",d:"Crispy tortilla chips in tangy tomatillo sauce with chicken and crema.",i:["corn tortillas","tomatillos","jalapeño","onion","garlic","chicken","crema","queso fresco","oil"],s:"Fry tortilla strips. Blend tomatillos, jalapeño, onion and garlic into green sauce. Simmer tortillas in sauce. Top with shredded chicken, crema and queso."},
+{n:"Molletes",c:"Mexican",m:"breakfast",t:"15 min",d:"Toasted bolillo rolls topped with refried beans, cheese and pico de gallo.",i:["bolillo rolls","refried beans","manchego cheese","tomatoes","onion","jalapeño","cilantro","lime"],s:"Halve and toast bolillos. Spread refried beans, top with cheese. Broil until melted. Make pico de gallo: chop tomatoes, onion, jalapeño, cilantro and lime. Spoon on top."},
+{n:"Omelette de Nopales",c:"Mexican",m:"breakfast",t:"20 min",d:"Egg omelette filled with cactus, jalapeño and queso fresco.",i:["eggs","nopales","jalapeño","onion","queso fresco","olive oil","salt"],s:"Dice and boil nopales 10 min, drain. Sauté with onion and jalapeño. Pour beaten eggs over, fold with nopales and queso fresco."},
+{n:"Tostadas de Frijoles",c:"Mexican",m:"breakfast",t:"15 min",d:"Crispy fried tortillas topped with refried beans, avocado and salsa.",i:["corn tortillas","refried beans","avocado","tomatoes","onion","jalapeño","lime","oil","cilantro"],s:"Fry tortillas until crispy. Spread refried beans. Top with sliced avocado and fresh salsa. Squeeze lime and add cilantro."},
+{n:"Sincronizadas",c:"Mexican",m:"breakfast",t:"15 min",d:"Ham and cheese quesadillas made with two flour tortillas.",i:["flour tortillas","ham","manchego cheese","salsa","avocado","oil"],s:"Layer ham and cheese between two tortillas. Cook in lightly oiled pan until golden and cheese melts. Cut into quarters. Serve with salsa and avocado."},
+{n:"Pan Dulce con Café",c:"Mexican",m:"breakfast",t:"5 min",d:"Sweet Mexican pastries paired with a dark café de olla.",i:["pan dulce","coffee","cinnamon","piloncillo"],s:"Brew coffee in a clay pot with cinnamon stick and piloncillo. Serve hot alongside fresh pan dulce."},
+{n:"Ejotes con Huevo",c:"Mexican",m:"breakfast",t:"15 min",d:"Scrambled eggs with green beans, tomato and onion.",i:["eggs","green beans","tomatoes","onion","garlic","oil","salt","pepper"],s:"Blanch green beans 3 min. Sauté onion, garlic and tomatoes. Add green beans, then beaten eggs. Scramble gently until just set."},
+{n:"Atole de Vainilla",c:"Mexican",m:"breakfast",t:"15 min",d:"Warm Mexican masa drink with vanilla and cinnamon.",i:["masa harina","milk","sugar","vanilla","cinnamon"],s:"Dissolve masa in water, strain. Combine with milk, sugar, vanilla and cinnamon in pot. Simmer stirring constantly until thick. Serve warm."},
+{n:"Tamales de Rajas",c:"Mexican",m:"breakfast",t:"90 min",d:"Steamed masa parcels filled with roasted peppers and cheese.",i:["masa harina","lard","chicken stock","poblano peppers","oaxaca cheese","corn husks","salt","baking powder"],s:"Soak corn husks. Beat lard, mix in masa with stock, salt, baking powder. Roast and peel poblanos, slice. Spread masa on husks, fill with pepper and cheese, fold and steam 1 hr."},
+{n:"Quesadilla de Flor de Calabaza",c:"Mexican",m:"breakfast",t:"20 min",d:"Quesadilla filled with squash blossoms and Oaxacan cheese.",i:["corn tortillas","squash blossoms","oaxaca cheese","onion","jalapeño","oil"],s:"Sauté squash blossoms with onion and jalapeño. Lay tortilla flat, add cheese and blossoms, fold. Cook in dry pan until cheese melts and tortilla crisps."},
+{n:"Memelas con Frijoles",c:"Mexican",m:"breakfast",t:"30 min",d:"Thick oval masa cakes topped with refried beans and salsa.",i:["masa harina","water","lard","refried beans","salsa","queso fresco","salt"],s:"Mix masa with water, lard and salt. Shape into ovals, make indent in center. Cook on comal until firm. Fill indent with refried beans, top with salsa and queso."},
+{n:"Enfrijoladas",c:"Mexican",m:"breakfast",t:"20 min",d:"Tortillas bathed in a rich black bean sauce, topped with cheese and crema.",i:["corn tortillas","black beans","onion","garlic","queso fresco","crema","oil"],s:"Blend black beans with onion, garlic into smooth sauce. Warm tortillas, dip in bean sauce, fold. Arrange on plate, top with crema and queso."},
+{n:"Caldo Tlalpeño",c:"Mexican",m:"breakfast",t:"45 min",d:"Hearty chipotle chicken and chickpea soup.",i:["chicken","chickpeas","chipotle in adobo","tomatoes","onion","garlic","avocado","lime"],s:"Simmer chicken with onion, garlic, tomatoes and chipotle. Add chickpeas. Remove chicken, shred, return to pot. Serve with avocado and lime."},
+// MEXICAN LUNCH
+{n:"Tacos al Pastor",c:"Mexican",m:"lunch",t:"45 min",d:"Marinated pork tacos with pineapple, onion and cilantro.",i:["pork shoulder","dried chiles","pineapple","onion","garlic","cumin","oregano","corn tortillas","cilantro","lime"],s:"Marinate pork in chile-achiote paste overnight. Grill or sear. Serve on warm tortillas with grilled pineapple, diced onion, cilantro and lime."},
+{n:"Tacos de Carnitas",c:"Mexican",m:"lunch",t:"2 hr",d:"Slow-braised pork tacos with cilantro and salsa verde.",i:["pork shoulder","lard","orange","garlic","cumin","bay leaf","corn tortillas","cilantro","onion","salsa verde","lime"],s:"Cook pork in lard with orange, garlic and cumin until tender and crispy. Shred. Serve on warm corn tortillas with cilantro, onion and salsa verde."},
+{n:"Quesadillas con Pollo",c:"Mexican",m:"lunch",t:"20 min",d:"Crispy flour tortillas filled with chicken, cheese and jalapeño.",i:["flour tortillas","chicken","oaxaca cheese","jalapeño","onion","oil","cilantro","sour cream"],s:"Season and cook chicken, shred. Sauté with onion and jalapeño. Fill tortilla with chicken and cheese, fold. Cook in oil until golden. Serve with sour cream and cilantro."},
+{n:"Sopa de Lima",c:"Mexican",m:"lunch",t:"35 min",d:"Yucatecan lime-scented chicken soup with crispy tortilla strips.",i:["chicken","lime","tomatoes","onion","garlic","jalapeño","corn tortillas","cilantro","oil"],s:"Simmer chicken with onion and garlic. Remove chicken, shred. Strain broth, return chicken, add lime juice and jalapeño. Fry tortilla strips. Serve with strips and cilantro."},
+{n:"Pozole Rojo",c:"Mexican",m:"lunch",t:"90 min",d:"Hearty hominy and pork stew in rich red chile broth.",i:["pork shoulder","hominy","dried ancho chiles","dried guajillo chiles","onion","garlic","oregano","cumin","radishes","cabbage","lime","tostadas"],s:"Simmer pork until tender. Blend rehydrated chiles with onion and garlic. Strain into pork broth. Add hominy, simmer 30 min. Serve with radishes, cabbage, lime and tostadas."},
+{n:"Enchiladas Verdes",c:"Mexican",m:"lunch",t:"40 min",d:"Corn tortillas filled with chicken, bathed in tomatillo salsa and baked with cheese.",i:["corn tortillas","chicken","tomatillos","jalapeño","onion","garlic","cilantro","sour cream","oaxaca cheese","oil"],s:"Poach chicken, shred. Blend tomatillos, jalapeño, onion and garlic into salsa verde. Dip tortillas in oil, fill with chicken, roll. Smother with salsa, top with cheese. Bake 20 min."},
+{n:"Torta Ahogada",c:"Mexican",m:"lunch",t:"20 min",d:"Guadalajara-style pork roll drowned in spicy tomato broth.",i:["bolillo rolls","carnitas","tomatoes","dried arbol chiles","onion","garlic","oregano","lime"],s:"Fill bolillo with carnitas. Blend tomatoes, chiles, onion and garlic into sauce. Pour sauce generously over the sandwich. Add lime and oregano."},
+{n:"Sopa de Tortilla",c:"Mexican",m:"lunch",t:"30 min",d:"Tomato-chipotle soup with crispy tortilla strips, avocado and queso.",i:["corn tortillas","tomatoes","chipotle in adobo","onion","garlic","chicken stock","avocado","queso fresco","crema","oil"],s:"Blend tomatoes, chipotle, onion and garlic. Fry paste in oil until dark. Add stock, simmer 15 min. Fry tortilla strips. Serve soup with strips, avocado, crema and queso."},
+{n:"Tostadas de Tinga",c:"Mexican",m:"lunch",t:"30 min",d:"Crispy tostadas topped with chipotle chicken tinga.",i:["corn tortillas","chicken","tomatoes","chipotle in adobo","onion","garlic","oil","avocado","crema","queso fresco"],s:"Poach chicken, shred. Sauté onion and garlic, add tomatoes and chipotle. Add chicken, simmer 10 min. Fry tortillas crispy. Top with tinga, avocado, crema and queso."},
+{n:"Flautas de Pollo",c:"Mexican",m:"lunch",t:"30 min",d:"Rolled and fried chicken flautas with sour cream and salsa.",i:["corn tortillas","chicken","garlic","cumin","oil","sour cream","salsa verde","avocado","queso fresco"],s:"Season chicken, cook and shred. Fill corn tortillas with chicken, roll tightly. Fry in oil until crispy. Serve with sour cream, salsa and avocado."},
+{n:"Ensalada de Nopalitos",c:"Mexican",m:"lunch",t:"20 min",d:"Cactus paddle salad with tomato, onion, jalapeño and queso.",i:["nopales","tomatoes","onion","jalapeño","cilantro","lime","queso fresco","olive oil","salt"],s:"Boil nopales 10 min until tender. Drain and rinse. Chop and combine with tomatoes, onion, jalapeño and cilantro. Dress with lime and oil. Top with queso fresco."},
+{n:"Cemita Poblana",c:"Mexican",m:"lunch",t:"25 min",d:"Puebla-style sandwich with milanesa, avocado and chipotle.",i:["cemita roll","beef milanesa","avocado","oaxaca cheese","chipotle in adobo","onion","papalo"],s:"Pound beef thin, bread and fry until golden. Spread chipotle on split cemita. Layer beef, cheese, sliced avocado, onion and papalo leaves."},
+{n:"Tlayudas",c:"Mexican",m:"lunch",t:"25 min",d:"Giant Oaxacan crispy tortilla topped with beans, meat and cheese.",i:["large corn tortilla","black beans","tasajo or beef","oaxaca cheese","avocado","tomatoes","lettuce","oil"],s:"Grill large tortilla until crispy. Spread refried black beans. Add grilled sliced meat. Top with shredded Oaxacan cheese, avocado, tomatoes and lettuce."},
+{n:"Gorditas de Chicharrón",c:"Mexican",m:"lunch",t:"25 min",d:"Thick masa pockets filled with crispy pork rinds in salsa.",i:["masa harina","lard","chicharrón","salsa verde","onion","cilantro","queso fresco","water"],s:"Make thick masa dough. Form oval patties, cook on comal until puffed. Slit open. Simmer chicharrón in salsa verde. Fill gorditas with mixture, onion, cilantro and queso."},
+{n:"Panuchos",c:"Mexican",m:"lunch",t:"35 min",d:"Yucatecan stuffed fried tortillas with black beans and turkey.",i:["corn tortillas","black beans","turkey or chicken","habanero","pickled onion","avocado","tomatoes","oil"],s:"Fry tortillas until puffed. Open and fill with refried black beans. Fry again until crispy. Top with shredded turkey, pickled red onion, avocado and tomatoes."},
+// MEXICAN DINNER
+{n:"Mole Negro con Pollo",c:"Mexican",m:"dinner",t:"3 hr",d:"Chicken bathed in complex Oaxacan black mole.",i:["chicken","dried mulato chiles","dried ancho chiles","tomatoes","tomatillos","onion","garlic","sesame seeds","peanuts","plantain","raisins","chocolate","cinnamon","cumin","cloves","oil"],s:"Toast and soak dried chiles. Blend with tomatoes, onion, garlic, nuts, chocolate and spices in batches. Fry paste in oil until darkened and fragrant. Add chicken stock, simmer 1 hr. Add chicken, cook 30 min more. Serve over rice."},
+{n:"Birria de Res",c:"Mexican",m:"dinner",t:"4 hr",d:"Jalisco-style beef stew in a deep red chile broth, served as tacos.",i:["beef short ribs","dried guajillo chiles","dried ancho chiles","tomatoes","onion","garlic","cumin","oregano","cloves","cinnamon","corn tortillas","cilantro","lime","queso fresco"],s:"Toast and rehydrate chiles. Blend into paste with tomatoes, onion, garlic and spices. Coat beef. Braise covered 3-4 hrs until very tender. Shred. Serve as tacos dipping tortillas in broth before frying. Top with cilantro, onion and lime."},
+{n:"Cochinita Pibil",c:"Mexican",m:"dinner",t:"4 hr",d:"Slow-roasted pork marinated in achiote and citrus — the Yucatan's crown jewel.",i:["pork shoulder","achiote paste","orange juice","lime","garlic","cumin","oregano","black pepper","banana leaves","pickled red onion"],s:"Blend achiote with citrus, garlic and spices. Rub pork generously. Wrap in banana leaves. Bake at 325°F for 3-4 hrs until falling apart. Shred. Serve with pickled red onion."},
+{n:"Enchiladas Rojas",c:"Mexican",m:"dinner",t:"40 min",d:"Corn tortillas filled with beef, bathed in red chile sauce and baked with cheese.",i:["corn tortillas","ground beef","dried guajillo chiles","dried ancho chiles","tomatoes","onion","garlic","cumin","oaxaca cheese","crema","queso fresco","oil"],s:"Make red sauce: toast, soak and blend chiles with tomatoes, onion, garlic and cumin. Fry and season beef. Dip tortillas in sauce, fill with beef, roll. Cover with sauce and cheese. Bake 20 min."},
+{n:"Chile Relleno",c:"Mexican",m:"dinner",t:"45 min",d:"Roasted poblano stuffed with cheese, battered in egg and fried.",i:["poblano peppers","oaxaca cheese","eggs","flour","tomatoes","onion","garlic","cumin","oil"],s:"Roast and peel poblanos. Fill with cheese. Beat egg whites stiff, fold in yolks and flour. Dip stuffed peppers in batter. Fry until golden. Serve in tomato-cumin sauce."},
+{n:"Caldo de Res",c:"Mexican",m:"dinner",t:"2 hr",d:"Hearty Mexican beef and vegetable soup.",i:["beef short ribs","corn","potatoes","carrots","zucchini","cabbage","onion","garlic","cilantro","lime","chili"],s:"Simmer beef ribs in water with onion and garlic 1 hr. Add corn, potatoes and carrots. Simmer 20 min. Add zucchini and cabbage. Season. Serve with lime, cilantro and chili."},
+{n:"Tamales de Mole",c:"Mexican",m:"dinner",t:"2 hr",d:"Steamed masa parcels filled with chicken and black mole.",i:["masa harina","lard","chicken stock","chicken","mole negro","corn husks","salt","baking powder"],s:"Soak corn husks. Beat lard, add masa with stock, salt, baking powder until light. Spread on husks, add chicken and mole. Fold, steam 1 hr 15 min."},
+{n:"Sopa Seca de Fideos",c:"Mexican",m:"dinner",t:"25 min",d:"Dry noodle soup browned in tomato chipotle sauce.",i:["fideo noodles","tomatoes","chipotle in adobo","onion","garlic","chicken stock","oil","crema","queso fresco"],s:"Fry fideo in dry pan until golden. Blend tomatoes, chipotle, onion and garlic into sauce. Add to pan and fry 2 min. Add stock. Simmer covered 12 min. Top with crema and queso."},
+{n:"Camarones a la Diabla",c:"Mexican",m:"dinner",t:"25 min",d:"Shrimp in a fiery red devil sauce.",i:["shrimp","dried guajillo chiles","dried arbol chiles","tomatoes","onion","garlic","butter","oil","lime","cilantro"],s:"Rehydrate and blend chiles with tomatoes, onion and garlic. Sauté in butter and oil until sauce darkens. Add shrimp, cook 3-4 min. Season with lime and cilantro."},
+{n:"Pescado a la Veracruzana",c:"Mexican",m:"dinner",t:"35 min",d:"Red snapper in a Veracruz sauce of tomatoes, olives, capers and herbs.",i:["red snapper","tomatoes","onion","garlic","green olives","capers","jalapeño","bay leaf","thyme","oregano","olive oil"],s:"Sauté onion and garlic in olive oil. Add tomatoes, olives, capers, jalapeño and herbs. Simmer 10 min. Nestle fish in sauce. Cover and cook 12-15 min until fish flakes."},
+{n:"Chiles en Nogada",c:"Mexican",m:"dinner",t:"90 min",d:"Roasted poblanos filled with picadillo, draped in walnut cream and pomegranate.",i:["poblano peppers","ground pork","apple","pear","raisins","almonds","tomatoes","onion","garlic","cinnamon","walnuts","cream cheese","milk","pomegranate","parsley"],s:"Make picadillo: cook pork with fruits, tomatoes and spices. Fill roasted poblanos. Make nogada: blend walnuts with cream cheese and milk until smooth. Drape over peppers. Garnish with pomegranate seeds and parsley."},
+{n:"Barbacoa de Borrego",c:"Mexican",m:"dinner",t:"5 hr",d:"Slow-cooked lamb wrapped in maguey leaves — a weekend tradition.",i:["lamb shoulder","dried ancho chiles","dried guajillo chiles","garlic","cumin","oregano","black pepper","lime","corn tortillas","cilantro","onion"],s:"Marinate lamb in chile paste overnight. Wrap in banana leaves. Steam or slow roast at very low heat 4-5 hrs until falling apart. Shred. Serve in tacos with cilantro, onion and lime."},
+{n:"Tlayuda con Tasajo",c:"Mexican",m:"dinner",t:"25 min",d:"Giant Oaxacan crispy tortilla with grilled beef, beans and cheese.",i:["large corn tortilla","beef","black beans","oaxaca cheese","avocado","lettuce","tomatoes","oil"],s:"Grill or toast large tortilla until crispy. Spread refried black beans. Add grilled sliced beef. Top with shredded Oaxacan cheese, avocado, lettuce and tomatoes."},
+{n:"Cabrito al Horno",c:"Mexican",m:"dinner",t:"3 hr",d:"Slow-roasted baby goat with chile-herb marinade — Nuevo León specialty.",i:["baby goat","garlic","oregano","cumin","lime","arbol chiles","oil","salt","black pepper"],s:"Make marinade with garlic, oregano, cumin, lime and chiles. Rub goat generously, marinate overnight. Roast at 325°F 2.5-3 hrs, basting frequently, until deeply golden and very tender."},
+// MEXICAN DESSERT
+{n:"Churros con Chocolate",c:"Mexican",m:"dessert",t:"30 min",d:"Crispy fried dough sticks dusted with cinnamon sugar, served with thick hot chocolate.",i:["flour","water","butter","salt","sugar","cinnamon","oil","dark chocolate","milk","cornstarch"],s:"Make choux dough with water, butter, flour and salt. Pipe through star nozzle into hot oil. Fry until golden. Roll in cinnamon sugar. Make thick chocolate dipping sauce with dark chocolate, milk and cornstarch."},
+{n:"Tres Leches",c:"Mexican",m:"dessert",t:"2 hr",d:"Sponge cake soaked in three milks and topped with whipped cream.",i:["flour","eggs","sugar","baking powder","vanilla","whole milk","evaporated milk","condensed milk","cream"],s:"Make light sponge cake. Poke holes all over. Mix three milks and pour slowly over warm cake. Refrigerate 1 hr. Top with freshly whipped cream."},
+{n:"Flan de Vainilla",c:"Mexican",m:"dessert",t:"3 hr",d:"Silky vanilla custard with a golden caramel top.",i:["eggs","condensed milk","evaporated milk","vanilla","sugar"],s:"Make caramel with sugar. Pour into baking dish. Blend remaining ingredients. Pour over caramel. Bake in bain-marie at 325°F for 50 min. Chill 2 hrs. Invert to unmould."},
+{n:"Arroz con Leche",c:"Mexican",m:"dessert",t:"35 min",d:"Creamy Mexican rice pudding with cinnamon and lime.",i:["rice","milk","condensed milk","cinnamon","lime zest","sugar","vanilla"],s:"Cook rice in water. Add milk, condensed milk, cinnamon stick and lime zest. Simmer stirring until thick and creamy, about 20 min. Add vanilla. Dust with cinnamon."},
+{n:"Polvorones",c:"Mexican",m:"dessert",t:"30 min",d:"Crumbly Mexican shortbread cookies with cinnamon and walnuts.",i:["flour","lard","powdered sugar","cinnamon","walnuts","vanilla"],s:"Mix lard with sugar until fluffy. Add flour, cinnamon, vanilla and walnuts. Form small rounds. Bake 325°F for 15 min. Roll immediately in icing sugar while hot."},
+{n:"Buñuelos",c:"Mexican",m:"dessert",t:"45 min",d:"Paper-thin fried dough discs coated in cinnamon sugar.",i:["flour","eggs","butter","milk","sugar","cinnamon","oil","anise seeds"],s:"Make soft dough with flour, eggs, butter, milk and anise. Rest 30 min. Roll paper thin. Fry one at a time until golden and puffed. Drain and sprinkle with cinnamon sugar."},
+{n:"Pastel de Elote",c:"Mexican",m:"dessert",t:"50 min",d:"Sweet corn cake — moist and slightly crumbly.",i:["corn kernels","eggs","sugar","butter","flour","baking powder","condensed milk","vanilla"],s:"Blend corn with eggs, condensed milk, melted butter and vanilla until smooth. Mix in flour, sugar and baking powder. Pour into greased pan. Bake 350°F for 40 min."},
+{n:"Capirotada",c:"Mexican",m:"dessert",t:"45 min",d:"Mexican bread pudding with piloncillo syrup, raisins and cheese.",i:["bolillo rolls","piloncillo","cinnamon","cloves","raisins","peanuts","cheese","butter"],s:"Make piloncillo syrup with cinnamon and cloves. Toast bread slices. Layer bread with raisins, peanuts and cheese. Pour syrup over. Bake 350°F for 30 min."},
+{n:"Natillas",c:"Mexican",m:"dessert",t:"25 min",d:"Silky Mexican vanilla custard with cinnamon.",i:["milk","eggs","sugar","cornstarch","vanilla","cinnamon"],s:"Whisk egg yolks with sugar and cornstarch. Heat milk until almost boiling. Temper eggs with hot milk. Return to heat, stir until thick. Add vanilla. Chill, dust with cinnamon."},
+
 ];
 
 // ─────────────────────────────────────────────
 //  STATE
 // ─────────────────────────────────────────────
 const QUICK = ["eggs","tomatoes","garlic","olive oil","onion","chicken","pasta","lemon","yogurt","butter","flour","cheese","parsley","rice","lamb","cumin"];
-const CUISINE_BADGE = {'Middle Eastern':'b-me',Italian:'b-it',Greek:'b-gr',American:'b-am'};
+const CUISINE_BADGE = {'Middle Eastern':'b-me',Italian:'b-it',Greek:'b-gr',American:'b-am',Mexican:'b-mx'};
 const PAGE_META = {
   breakfast:{title:'Breakfast',icon:'🌅',sub:'recipes across all four cuisines'},
   lunch:{title:'Lunch',icon:'🥗',sub:'recipes across all four cuisines'},
@@ -455,6 +536,7 @@ const PAGE_META = {
   italian:{title:'Italian Cuisine',icon:'🍝',cuisine:'Italian',sub:'recipes across all meal types'},
   greek:{title:'Greek Cuisine',icon:'🏛️',cuisine:'Greek',sub:'recipes across all meal types'},
   american:{title:'American Cuisine',icon:'🦅',cuisine:'American',sub:'recipes across all meal types'},
+  mexican:{title:'Mexican Cuisine',icon:'🌮',cuisine:'Mexican',sub:'recipes across all meal types'},
 };
 let userIngs = [];
 
@@ -466,7 +548,7 @@ document.addEventListener('DOMContentLoaded', () => {
   QUICK.forEach(q => {
     const b = document.createElement('button');
     b.className = 'chip'; b.textContent = q;
-    b.onclick = () => { if (!userIngs.includes(q)) { userIngs.push(q); renderTags(); } };
+    b.id = 'chip-'+q.replace(/\s/g,'_'); b.onclick = () => { if (!userIngs.includes(q)) { userIngs.push(q); renderTags(); b.classList.add('added'); } };
     chips.appendChild(b);
   });
   document.getElementById('ing-input').addEventListener('keydown', e => { if (e.key === 'Enter') addIng(); });
@@ -544,41 +626,76 @@ function renderTags() {
 // ─────────────────────────────────────────────
 //  FINDER
 // ─────────────────────────────────────────────
+let threshold = 0;
+function updateThreshold() {
+  threshold = parseInt(document.getElementById('threshold').value);
+  const labels = ['0 — exact match only','1 ingredient missing','2 ingredients missing','3 ingredients missing','4 ingredients missing'];
+  document.getElementById('threshold-val').textContent = labels[threshold];
+}
+
+function hasIng(recipeIng, ings) {
+  const ri = recipeIng.toLowerCase();
+  return ings.some(u => ri.includes(u.toLowerCase()) || u.toLowerCase().includes(ri));
+}
+
+function getMissing(r, ings) { return r.i.filter(ri => !hasIng(ri, ings)); }
+function getMatched(r, ings) { return r.i.filter(ri => hasIng(ri, ings)); }
+
 function findRecipes() {
+  if (!userIngs.length) {
+    document.getElementById('finder-results').innerHTML =
+      `<div class="no-match"><h4>No ingredients added yet</h4><p>Add ingredients you have in your kitchen using the field above, then search.</p></div>`;
+    return;
+  }
   const meal = document.getElementById('f-meal').value;
   const cuisine = document.getElementById('f-cuisine').value;
   let pool = R.filter(r => (meal === 'all' || r.m === meal) && (cuisine === 'all' || r.c === cuisine));
-  if (!pool.length) {
-    document.getElementById('finder-results').innerHTML =
-      `<div class="empty"><div>🍽️</div><p>No recipes found. Try different filters.</p></div>`;
+  const eligible = pool.filter(r => getMissing(r, userIngs).length <= threshold);
+  if (!eligible.length) {
+    const freqMap = {};
+    pool.forEach(r => getMissing(r, userIngs).forEach(mi => { freqMap[mi] = (freqMap[mi]||0)+1; }));
+    const topSugs = Object.entries(freqMap).sort((a,b)=>b[1]-a[1]).slice(0,10).map(([ing])=>ing);
+    document.getElementById('finder-results').innerHTML = `
+      <div class="no-match">
+        <h4>No recipes match your ingredients</h4>
+        <p>No recipes can be made with what you have${threshold>0?` (even allowing ${threshold} missing)`:''}. Try adding more ingredients or increasing the slider above.</p>
+        <p style="margin-top:10px;font-size:13px;color:#999">Adding any of these would unlock more recipes:</p>
+        <div class="suggestions">${topSugs.map(s=>`<button class="sug-chip" onclick="suggestAdd('${s}')">${s}</button>`).join('')}</div>
+      </div>`;
     return;
   }
-  const scored = pool.map(r => ({ ...r, mc: matchCount(r) }));
-  scored.sort((a, b) => b.mc - a.mc || Math.random() - 0.5);
-  const top5 = scored.slice(0, 5);
+  eligible.sort((a,b) => {
+    const am = getMissing(a, userIngs).length, bm = getMissing(b, userIngs).length;
+    if (am !== bm) return am - bm;
+    return getMatched(b, userIngs).length - getMatched(a, userIngs).length || Math.random()-.5;
+  });
+  const top5 = eligible.slice(0,5);
   document.getElementById('finder-results').innerHTML = `
     <div class="results-hdr">
-      <h3>Your 5 Recipes</h3>
-      <span class="count-pill">${top5.length} found</span>
+      <h3>Recipes You Can Make${threshold>0?` (±${threshold} missing)`:''}</h3>
+      <span class="count-pill">${eligible.length} found · showing 5</span>
     </div>
-    <div class="grid">${top5.map(r => cardHTML(r, userIngs)).join('')}</div>`;
+    <div class="grid">${top5.map(r=>cardHTML(r,userIngs)).join('')}</div>`;
 }
 
-function matchCount(r) {
-  if (!userIngs.length) return 0;
-  return r.i.filter(ing => userIngs.some(u => ing.toLowerCase().includes(u) || u.includes(ing.toLowerCase()))).length;
+function suggestAdd(ing) {
+  if (!userIngs.includes(ing)) { userIngs.push(ing); renderTags(); const c=document.getElementById('chip-'+ing.replace(/\s/g,'_')); if(c) c.classList.add('added'); }
+  findRecipes();
 }
 
 // ─────────────────────────────────────────────
 //  CARD HTML
 // ─────────────────────────────────────────────
 function cardHTML(r, ings) {
-  const mc = ings.length ? r.i.filter(x => ings.some(u => x.toLowerCase().includes(u) || u.includes(x.toLowerCase()))).length : null;
-  const pct = mc !== null && r.i.length ? Math.round(mc / r.i.length * 100) : null;
-  const matchBadge = pct !== null ? `<span class="badge ${pct>=60?'b-hi':pct>=30?'b-mid':'b-lo'}">${pct}% match</span>` : '';
+  const missing = ings.length ? getMissing(r, ings) : [];
+  const matched = ings.length ? getMatched(r, ings) : [];
+  const pct = ings.length && r.i.length ? Math.round(matched.length / r.i.length * 100) : null;
+  const matchBadge = pct !== null ? `<span class="badge ${pct>=100?'b-hi':pct>=60?'b-mid':'b-lo'}">${pct}%</span>` : '';
+  const missingNote = ings.length && missing.length ? `<div class="missing-note"><strong>Still need:</strong> ${missing.join(', ')}</div>` : '';
   const ingItems = r.i.map(x => {
-    const have = ings.length && ings.some(u => x.toLowerCase().includes(u) || u.includes(x.toLowerCase()));
-    return `<li class="${ings.length?(have?'have':'need'):''}">${ings.length?(have?'✓ ':'✗ '):''}${x}</li>`;
+    if (!ings.length) return `<li>${x}</li>`;
+    const have = hasIng(x, ings);
+    return `<li class="${have?'have':'need'}">${have?'✓':'✗'} ${x}</li>`;
   }).join('');
   return `<div class="card" onclick="toggleCard(this)">
     <div class="card-top">
